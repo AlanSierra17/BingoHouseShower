@@ -13,34 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
     var NUM_SPAN = 15;
     var MAX_NUM = 75;
 
-    function SoundManager() {
-        var drum = document.getElementById('audio_drum');
-        var cymbal = document.getElementById('audio_cymbal');
-
-        return {
-            playDrum: playDrum,
-            stopDrum: stopDrum,
-            playCymbal: playCymbal
-        };
-
-        function playDrum() {
-            if (!drum) return;
-            drum.currentTime = 0;
-            drum.play();
-        }
-
-        function stopDrum() {
-            if (!drum) return;
-            drum.pause();
-        }
-
-        function playCymbal() {
-            if (!cymbal) return;
-            cymbal.currentTime = 0;
-            cymbal.play();
-        }
-    }
-
     function NumberManager() {
         var numArr = [];
         var totalNumArr = [];
@@ -269,7 +241,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function initialize() {
         var numberManager = NumberManager();
-        var soundManager = SoundManager();
         var roulette = Roulette();
         var board = Board();
         var isMoving = false;
@@ -283,13 +254,9 @@ document.addEventListener('DOMContentLoaded', function() {
             isMoving = true;
             var nextNumber = numberManager.getNext();
 
-            soundManager.playDrum();
             roulette.start(numberManager.getHead(nextNumber) + ("00" + nextNumber).slice(-2));
 
             setTimeout(function() {
-                soundManager.stopDrum();
-                soundManager.playCymbal();
-
                 board.select(nextNumber);
                 setTimeout(function() {
                     isMoving = false;
